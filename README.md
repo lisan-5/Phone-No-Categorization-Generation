@@ -147,4 +147,4 @@ java -cp ".;$root\out;lib/gson-2.10.1.jar" com.phonecat.Main
 - Length-aware weight multipliers adapt scoring for 4–8 digits.
 - The Configuration tab includes presets and custom tokens; the status bar reflects the active profile.
 - The Generate tab shows phase-based progress and ETA; Nearby Suggestions available in Categorize.
-  - Controls are simplified: one Generate button, no pause/resume/cancel.
+- Controls are simplified: one Generate button, no pause/resume/cancel.
