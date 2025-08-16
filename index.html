@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Analyzer & Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-white text-gray-800 relative">
+    <!-- Decorative blobs -->
+    <div class="pointer-events-none absolute -top-10 -left-10 w-60 h-60 rounded-full bg-indigo-200 blur-3xl opacity-40"></div>
+    <div class="pointer-events-none absolute -bottom-10 -right-10 w-72 h-72 rounded-full bg-purple-200 blur-3xl opacity-40"></div>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent tracking-tight">Phone Number Algorithm</h1>
+            <p class="text-md text-gray-600 mt-2">Categorize and generate memorable phone numbers based on a detailed scoring system.</p>
+        </header>
+
+        <div class="bg-white/90 backdrop-blur rounded-xl shadow-xl p-6 md:p-8 border border-white/60">
+            
+            <!-- Main Tabs -->
+    <div class="mb-6 border-b border-gray-200">
+        <nav class="flex -mb-px space-x-6 relative">
+                    <button id="tab-categorize" class="py-4 px-1 border-b-2 text-sm font-medium tab-active">Categorize</button>
+                    <button id="tab-generate" class="py-4 px-1 border-b-2 text-sm font-medium tab-inactive">Generate</button>
+            <button id="tab-config" class="py-4 px-1 border-b-2 text-sm font-medium tab-inactive">Configuration</button>
+            <button id="tab-docs" class="py-4 px-1 border-b-2 text-sm font-medium tab-inactive">Documentation</button>
+            <span id="tab-indicator" class="absolute bottom-0 h-0.5 bg-indigo-600 rounded transition-all duration-300" style="left:0;width:0;"></span>
+                </nav>
+            </div>
+
+            <!-- App Content -->
+            <div>
+                <!-- Categorization Panel -->
+                <div id="panel-categorize">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <div class="md:col-span-2">
+                            <label for="categorize-input" class="block text-sm font-medium text-gray-700 mb-1">Enter a 4 to 8 digit number</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M2 5a2 2 0 012-2h3a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zM11 5a2 2 0 012-2h3a2 2 0 012 2v2a2 2 0 01-2 2h-3a2 2 0 01-2-2V5zM2 13a2 2 0 012-2h3a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zM11 13a2 2 0 012-2h3a2 2 0 012 2v2a2 2 0 01-2 2h-3a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                </span>
+                                <input type="text" id="categorize-input" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 8888 or 123321">
+                            </div>
+                        </div>
+                        <div>
+                            <button id="categorize-btn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:shadow-lg hover:-translate-y-0.5 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                                Analyze Number
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Inline Categorization Result (kept within Categorize tab only) -->
+                    <div id="cat-results" class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Categorization Result</h3>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="cat-toggle-json" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                <label for="cat-toggle-json" class="text-sm text-gray-700">Show JSON</label>
+                            </div>
+                            <button id="cat-copy-json" class="text-sm px-3 py-1.5 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Copy JSON</button>
+                        </div>
+                        <div id="cat-results-output" class="grid grid-cols-1 gap-3">
+                            <div class="text-gray-500 text-sm">No result yet.</div>
+                        </div>
+                        <pre id="cat-results-json" class="hidden bg-gray-50 border border-gray-200 rounded p-3 text-xs overflow-x-auto mt-3"></pre>
+                    </div>
+                </div>
+
+                <!-- Generation Panel -->
+                <div id="panel-generate" class="hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div>
+                            <label for="generate-length" class="block text-sm font-medium text-gray-700 mb-1">Digit Length</label>
+                            <select id="generate-length" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option>4</option>
+                                <option>5</option>
+                                <option selected>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="generate-category" class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
+                            <select id="generate-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option>Premium</option>
+                                <option>Platinum</option>
+                                <option>Gold</option>
+                                <option>Silver</option>
+                                <option>Bronze</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="generate-count" class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                            <input type="number" id="generate-count" value="1" min="1" max="50" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <button id="generate-btn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:shadow-lg hover:-translate-y-0.5 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                                Generate
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Area (only for Generate tab) -->
+                    <div id="gen-results-container" class="mt-6 pt-4 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Results</h3>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="gen-toggle-json" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                <label for="gen-toggle-json" class="text-sm text-gray-700">Show JSON</label>
+                            </div>
+                            <button id="gen-copy-json" class="text-sm px-3 py-1.5 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Copy JSON</button>
+                        </div>
+                        <div id="gen-results-output" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="col-span-full text-center py-6 text-gray-500">
+                                <svg class="mx-auto mb-2" width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#e5e7eb" stroke-width="3"/><path d="M22 12a10 10 0 00-10-10" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/></svg>
+                                Results will appear here.
+                            </div>
+                        </div>
+                        <pre id="gen-results-json" class="hidden bg-gray-50 border border-gray-200 rounded p-3 text-xs overflow-x-auto mt-3"></pre>
+                    </div>
+                </div>
+                
+                <!-- Configuration Panel -->
+                <div id="panel-config" class="hidden">
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                        <div>
+                            <label for="weight-repetition" class="block text-sm font-medium text-gray-700">Repetition Weight: <span id="val-repetition">1.8</span></label>
+                            <input type="range" id="weight-repetition" min="0" max="3" step="0.1" value="1.8" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-sequence" class="block text-sm font-medium text-gray-700">Sequence Weight: <span id="val-sequence">1.6</span></label>
+                            <input type="range" id="weight-sequence" min="0" max="3" step="0.1" value="1.6" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-pattern" class="block text-sm font-medium text-gray-700">Pattern Weight: <span id="val-pattern">1.5</span></label>
+                            <input type="range" id="weight-pattern" min="0" max="3" step="0.1" value="1.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-periodic" class="block text-sm font-medium text-gray-700">Periodicity Weight: <span id="val-periodic">1.3</span></label>
+                            <input type="range" id="weight-periodic" min="0" max="3" step="0.1" value="1.3" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-alternation" class="block text-sm font-medium text-gray-700">Alternation Weight: <span id="val-alternation">1.4</span></label>
+                            <input type="range" id="weight-alternation" min="0" max="3" step="0.1" value="1.4" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-rhythm" class="block text-sm font-medium text-gray-700">Rhythm Weight: <span id="val-rhythm">1.2</span></label>
+                            <input type="range" id="weight-rhythm" min="0" max="3" step="0.1" value="1.2" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="weight-unique" class="block text-sm font-medium text-gray-700">Unique Digit Weight: <span id="val-unique">0.8</span></label>
+                            <input type="range" id="weight-unique" min="0" max="3" step="0.1" value="0.8" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="region-preset" class="block text-sm font-medium text-gray-700">Cultural Profile</label>
+                            <select id="region-preset" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="none" selected>No cultural preference</option>
+                                <option value="global">Global (balanced)</option>
+                                <option value="western">Western (USA, UK, France, NL)</option>
+                                <option value="china">China</option>
+                                <option value="japan">Japan</option>
+                                <option value="vietnam">Vietnam</option>
+                                <option value="india_south">India (South)</option>
+                                <option value="ethiopia">Ethiopia</option>
+                                <option value="italy">Italy</option>
+                                <option value="germany">Germany</option>
+                                <option value="spain_mexico">Spain & Mexico</option>
+                                <option value="norway">Norway</option>
+                                <option value="afghanistan">Afghanistan</option>
+                                <option value="catholic">Catholic Countries</option>
+                                <option value="russia">Russia</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Select a profile to auto-fill lucky/unlucky tokens and see brief cultural reasons. Choosing "No cultural preference" clears tokens and disables cultural notes.</p>
+                            <div id="profile-summary" class="mt-3 p-3 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800 mb-1">Lucky</p>
+                                        <ul id="summary-lucky" class="list-disc ml-5 space-y-0.5"></ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-800 mb-1">Unlucky</p>
+                                        <ul id="summary-unlucky" class="list-disc ml-5 space-y-0.5"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="config-lucky" class="block text-sm font-medium text-gray-700">Lucky Numbers (comma-separated)</label>
+                            <input type="text" id="config-lucky" value="7, 8" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="config-unlucky" class="block text-sm font-medium text-gray-700">Unlucky Numbers (comma-separated)</label>
+                            <input type="text" id="config-unlucky" value="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Documentation Panel -->
+                <div id="panel-docs" class="hidden">
+                    <div class="prose max-w-none">
+                        <h2 class="text-xl font-semibold mb-2">Project Overview</h2>
+                        <p class="text-sm text-gray-700 mb-4">Single algorithm that categorizes 4–8 digit numbers and generates numbers matching requested subcategories using a configurable scoring system. This is a web implementation; Java is optional later.</p>
+
+                        <h3 class="text-lg font-semibold mt-4">Algorithm Flow</h3>
+                        <ol class="list-decimal ml-6 text-sm text-gray-700 space-y-1">
+                            <li>Validate: ensure 4–8 digits.</li>
+                            <li>Score: compute weighted sum of features (repetition, sequences, patterns, periodicity, alternation, rhythm, unique digits, cultural).</li>
+                            <li>Clamp: cap score to [0, 100].</li>
+                            <li>Map: convert score to subcategory (Premium, Platinum, Gold, Silver, Bronze).</li>
+                        </ol>
+
+                        <h3 class="text-lg font-semibold mt-4">Scoring Formula</h3>
+                        <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto">total =
+  repetitionScore * repetitionWeight +
+  sequenceScore   * sequenceWeight   +
+  patternScore    * patternWeight    +
+  periodicScore   * periodicWeight   +
+  alternationScore* alternationWeight+
+  rhythmScore     * rhythmWeight     +
+  uniqueDigitScore* uniqueDigitWeight+
+  culturalScore
+total = clamp(total, 0, 100)</pre>
+
+                        <h3 class="text-lg font-semibold mt-4">Pseudocode</h3>
+                        <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto">function categorize(number, config):
+  if not isDigits(number) or len not in [4..8]: return error
+  score = calculateScore(number, config)
+  tier  = tierFromScore(score)
+  return { number, digit_category: len+"-digit", subcategory: tier, score: round(score) }
+
+function generate(len, tier, count, config):
+  C = set()
+  addTemplates(C, len)           # repeats, palindromes, sequences, periodic AB/ABC, pairs
+  R = []
+  for each n in C:
+    if tierFromScore(calculateScore(n, config)) == tier: R.add(categorize(n))
+  while |R| < count and attempts < MAX:
+    n = random len-digit number (no leading 0)
+    if n not in C and tierFromScore(score(n)) == tier: R.add(categorize(n))
+    C.add(n)
+  return top count by score (unique by number)
+
+function calculateScore(s, config):
+  repetitionScore = sum_over_runs(length(run)^2.5)
+  sequenceScore   = 15 per ascending/descending window of length 3 (overlapping)
+  patternScore    = +25 if palindrome; +20 if AABB/ABAB (4-digit) or pairs-all-equal for even length
+  periodicScore   = if minimal period p < len: (len/p - 1) * 12
+  alternationScore= +15 if global alternation (period=2, a!=b)
+  rhythmScore     = (len / number_of_runs) * 6
+  uniqueDigitScore= (len - unique_count) * 5
+  culturalScore   = +5 per distinct lucky digit present; -10 per distinct unlucky digit present
+  return weighted sum</pre>
+
+                        <h3 class="text-lg font-semibold mt-4">Example Outputs</h3>
+                        <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto">{"number":"1234","digit_category":"4-digit","subcategory":"Gold","score":82}
+[
+  {"number":"7777","digit_category":"4-digit","subcategory":"Premium","score":100},
+  {"number":"1221","digit_category":"4-digit","subcategory":"Gold","score":85}
+]</pre>
+
+                        <h3 class="text-lg font-semibold mt-4">Performance Tips</h3>
+                        <ul class="list-disc ml-6 text-sm text-gray-700 space-y-1">
+                            <li>Template-first generation (repeats, palindromes, sequences, periodic AB/ABC, pairwise blocks) drastically narrows search space.</li>
+                            <li>Use sets to avoid rescoring duplicates; cap random attempts.</li>
+                            <li>Short-circuit scoring by accumulating and early-clamping if already ≥100.</li>
+                            <li>Parallelize scoring in batch environments; keep UI single-threaded.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+        
+        <footer class="text-center mt-8 text-sm text-gray-500">
+            <p>Built for Internship Project | Phone Number Algorithm</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

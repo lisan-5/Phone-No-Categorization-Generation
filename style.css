@@ -1,0 +1,21 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+.tab-active {
+  border-bottom-color: #4f46e5;
+  color: #4f46e5;
+  font-weight: 600;
+}
+.tab-inactive {
+  border-bottom-color: transparent;
+  color: #6b7280;
+}
+.result-card {
+  transition: all 0.3s ease;
+}
+.badge { display:inline-block; padding:2px 8px; border-radius:9999px; font-size:12px; font-weight:600; }
+.badge-premium { background:#ede9fe; color:#6d28d9; border:1px solid #ddd6fe; }
+.badge-platinum { background:#e5e7eb; color:#374151; border:1px solid #d1d5db; }
+.badge-gold { background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
+.badge-silver { background:#e0f2fe; color:#075985; border:1px solid #bae6fd; }
+.badge-bronze { background:#f3f4f6; color:#4b5563; border:1px solid #e5e7eb; }
