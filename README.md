@@ -144,19 +144,6 @@ The algorithm is language-agnostic and easily portable (e.g., to Java). Keep the
 
 ---
 
-## Troubleshooting
-- Buttons don’t respond: ensure the page loaded fully; the script attaches listeners on `DOMContentLoaded`.
-- Seeing duplicates in generation: the app tracks accepted numbers and de-duplicates final results; if any persist, verify the requested quantity and tier.
-- Performance slow for large counts: reduce quantity or temporarily disable heavy templates (e.g., ABCABC) for testing.
-
----
-
 ## License & Attribution
 - This project was built as part of an internship. Use and adapt as needed for educational and internal purposes.
 
----
-
-## Changelog
-- 2025-08-16
-  - Added monotonic-run bonus within sequence scoring to fairly boost strong consecutive runs (e.g., `1234`, `9876`) without hard-coding specific numbers. The bonus scales with the Sequence Weight.
-  - Split assets into `app.js` and `style.css`; `index.html` now links these external files.
