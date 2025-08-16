@@ -125,7 +125,7 @@ Generate (JSON list):
 ```
 [
   {"number":"7777","digit_category":"4-digit","subcategory":"Premium","score":100},
-  {"number":"1221","digit_category":"4-digit","subcategory":"Gold","score":85}
+  {"number": "1221", "digit_category": "4-digit", "subcategory": "Silver", "score": 65}
 ]
 ```
 
@@ -146,4 +146,5 @@ The algorithm is language-agnostic and easily portable (e.g., to Java). Keep the
 
 ## License & Attribution
 - This project was built as part of an internship. Use and adapt as needed for educational and internal purposes.
+
 
