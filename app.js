@@ -552,3 +552,49 @@ class PhoneNumberAssessor {
       presetSelect.dispatchEvent(new Event('change'));
     }
 
+
+    if (catToggleJson) {
+      catToggleJson.addEventListener('change', () => {
+        if (catResultsJson) {
+          catResultsJson.classList.toggle('hidden', !catToggleJson.checked);
+        }
+      });
+    }
+
+    // Copy JSON to clipboard for categorize tab
+    if (catCopyJsonBtn) {
+      catCopyJsonBtn.addEventListener('click', () => {
+        if (catResultsJson) {
+          navigator.clipboard.writeText(catResultsJson.textContent);
+          const originalText = catCopyJsonBtn.textContent;
+          catCopyJsonBtn.textContent = 'Copied!';
+          setTimeout(() => catCopyJsonBtn.textContent = originalText, 2000);
+        }
+      });
+    }
+
+    // Toggle JSON visibility for generate tab
+    if (genToggleJson) {
+      genToggleJson.addEventListener('change', () => {
+        if (genResultsJson) {
+          genResultsJson.classList.toggle('hidden', !genToggleJson.checked);
+        }
+      });
+    }
+
+    // Copy JSON to clipboard for generate tab
+    if (genCopyJsonBtn) {
+      genCopyJsonBtn.addEventListener('click', () => {
+        if (genResultsJson) {
+          navigator.clipboard.writeText(genResultsJson.textContent);
+          const originalText = genCopyJsonBtn.textContent;
+          genCopyJsonBtn.textContent = 'Copied!';
+          setTimeout(() => genCopyJsonBtn.textContent = originalText, 2000);
+        }
+      });
+    }
+
+  });
+})();
+
+
