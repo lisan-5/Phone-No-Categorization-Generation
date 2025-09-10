@@ -14,6 +14,7 @@ class ScoreConfig {
     this.cultureProfiles = {
       none: { lucky: {}, unlucky: {} },
       global: {
+        
         lucky: {
           '3': [{ region: 'China & Europe', reason: 'Three wishes / philosophical triads' }],
           '7': [{ region: 'USA & Europe', reason: '7 days of creation, 7 wonders' }],
@@ -551,27 +552,3 @@ class PhoneNumberAssessor {
       presetSelect.dispatchEvent(new Event('change'));
     }
 
-    if (genToggleJson && genResultsJson) {
-      genToggleJson.addEventListener('change', () => { genResultsJson.classList.toggle('hidden', !genToggleJson.checked); });
-    }
-    if (genCopyJsonBtn && genResultsJson) {
-      genCopyJsonBtn.addEventListener('click', async () => {
-        try { await navigator.clipboard.writeText(genResultsJson.textContent || ''); genCopyJsonBtn.textContent = 'Copied'; setTimeout(() => genCopyJsonBtn.textContent = 'Copy JSON', 1200); }
-        catch { genCopyJsonBtn.textContent = 'Failed'; setTimeout(() => genCopyJsonBtn.textContent = 'Copy JSON', 1200); }
-      });
-    }
-
-    if (catToggleJson && catResultsJson) {
-      catToggleJson.addEventListener('change', () => { catResultsJson.classList.toggle('hidden', !catToggleJson.checked); });
-    }
-    if (catCopyJsonBtn && catResultsJson) {
-      catCopyJsonBtn.addEventListener('click', async () => {
-        try { await navigator.clipboard.writeText(catResultsJson.textContent || ''); catCopyJsonBtn.textContent = 'Copied'; setTimeout(() => catCopyJsonBtn.textContent = 'Copy JSON', 1200); }
-        catch { catCopyJsonBtn.textContent = 'Failed'; setTimeout(() => catCopyJsonBtn.textContent = 'Copy JSON', 1200); }
-      });
-    }
-
-    // initialize indicator position for initial active tab
-    switchTab('categorize');
-  });
-})();
